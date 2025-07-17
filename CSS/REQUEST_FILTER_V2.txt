@@ -1,0 +1,15 @@
+SELECT req.*
+FROM CSS.css_requests req, CSS.css_request_phases ph
+WHERE
+req.request_no = ph.request_no
+AND req.request_phase_id = ph.to_phase_id
+AND (ph.to_role_id=:roleId OR :roleId IS NULL)
+AND (ph.create_user=:userCode OR :userCode IS NULL)
+AND (req.request_no=:requestNo OR :requestNo IS NULL)
+AND (req.dir_code=:dirCode OR :dirCode IS NULL)
+AND (req.event_date=TO_DATE(:eventDate, '`YYYY/MM/DD HH24:MI:SS') OR :eventDate IS NULL)
+AND (req.event_type_code=:eventType OR :eventType IS NULL)
+AND (req.participation_type=:participationType OR :participationType IS NULL)
+AND (req.event_place=:eventPlace OR :eventPlace IS NULL)
+AND (req.country_code=:countryCode OR :countryCode IS NULL)
+ORDER BY req.request_no;

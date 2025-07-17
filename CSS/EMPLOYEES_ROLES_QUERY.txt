@@ -1,0 +1,23 @@
+1-get employees roles
+
+SELECT f.COLLECT_DEPARTMENT_NAME,
+	   f.DIR_CODE,
+	   f.DIR_DESC,
+	   f.ASSISTANT_MGR_CODE 	mgr_code,
+	   f.ASSISTANT_MGR_NAME 	mgr_name,
+	   af.TYPE_DESC,
+	   af.TYPE_NO
+  FROM prsnew.PRS_TECH_DIR_VW f, PRSNEW.PRS_DIR_TYPES af
+ WHERE f.TYPE_NO = af.TYPE_NO AND
+	   (af.TYPE_NO IN (2, 1) OR f.COLLECT_DEPT_CODE IN (151, 320)
+	   )
+
+============================================================
+
+2-get employee hirarecy departments
+
+SELECT f.DIR_CODE, f.DIR_DESC
+	  FROM prsnew.PRS_TECH_DIR_VW f, PRSNEW.PRS_DIR_TYPES af
+	 WHERE f.TYPE_NO = af.TYPE_NO
+START WITH f.ASSISTANT_MGR_CODE = :puser
+CONNECT BY PRIOR f.COLLECT_DEPT_CODE = f.PARENT_COLLECT_DEPT_CODE
